@@ -1,0 +1,817 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     34556,        809]
+NotebookOptionsPosition[     31742,        730]
+NotebookOutlinePosition[     32703,        761]
+CellTagsIndexPosition[     32550,        755]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["New BEAMdp Scripts", "Subchapter",
+ CellChangeTimes->{{3.6520544747460938`*^9, 
+  3.6520544871796875`*^9}},ExpressionUUID->"9ea1d1b1-7100-4cc1-9a0c-\
+9e7c8d137dd9"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Needs", "[", "\"\<XMGR`\>\"", "]"}], ";"}]], "Input",
+ InitializationCell->
+  True,ExpressionUUID->"d09144e9-9e31-4ab1-ada5-a54a0364b010"],
+
+Cell[CellGroupData[{
+
+Cell["CopyBEAMDPToDir", "Subsection",
+ Background->RGBColor[
+  1, 1, 0.85],ExpressionUUID->"597c381f-c658-443f-ace9-1177b1fdf02d"],
+
+Cell["\<\
+CopyBEAMDPToDir Notes
+Copies the executable to the local directory. This avoids putting the path in \
+the command line. Either way...\
+\>", "Text",
+ PageWidth->PaperWidth,
+ CellChangeTimes->{{3.7042267321396484`*^9, 3.704226778919922*^9}},
+ Background->RGBColor[
+  1, 0.9, 0.8],ExpressionUUID->"a619b899-5c7b-41d6-a209-027c506cfdf3"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "CopyBEAMDPToDir", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"CopyBEAMDPToDir", "[", "InDir_String", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{"UseTargetNM", ",", "GetDirNM", ",", 
+       RowBox[{"BDPNM", "=", "\"\<beamdp.exe\>\""}]}], "\[IndentingNewLine]", 
+      "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"UseTargetNM", "=", 
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{"InDir", ",", "BDPNM"}], "}"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"FileExistsQ", "[", "UseTargetNM", "]"}], ",", 
+        RowBox[{
+         RowBox[{"Return", "[", "True", "]"}], ";"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"GetDirNM", "=", 
+       RowBox[{"FileNameJoin", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"Environment", "[", "\"\<HEN_HOUSE\>\"", "]"}], ",", 
+          "\"\<bin\>\"", ",", "\"\<gnu_win32\>\"", ",", "BDPNM"}], "}"}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"StringMatchQ", "[", 
+       RowBox[{
+        RowBox[{"CopyFile", "[", 
+         RowBox[{"GetDirNM", ",", "UseTargetNM"}], "]"}], ",", 
+        "UseTargetNM"}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{"(*", "\n", 
+   RowBox[{
+   "CopyBEAMDPToDir", "[", "\"\<C:\\\\PhaseSpace\\\\Varian600C\\\\\>\"", 
+    "]"}], "\n", "*)"}]}]}], "Input",
+ Editable->True,
+ Evaluatable->True,
+ InitializationCell->True,
+ CellChangeTimes->{{3.6520559373271484`*^9, 3.6520560380927734`*^9}, {
+  3.6520561981865234`*^9, 3.6520563078740234`*^9}, {3.6520563464052734`*^9, 
+  3.6520563725615234`*^9}},
+ Background->GrayLevel[0.85],
+ CellTags->
+  "FunctionDefinition \
+CopyBEAMDPToDir",ExpressionUUID->"f64de668-64c1-4c25-9ad1-cd9ecabd217c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["AllThe Scripts", "Section",
+ CellChangeTimes->{{3.7042266864257812`*^9, 
+  3.7042267074023438`*^9}},ExpressionUUID->"b80a7407-5013-471c-b904-\
+4ba925269020"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"Spectrum", " ", "Scripts"}], " ", "-", " ", 
+     RowBox[{
+     "These", " ", "contain", " ", "the", " ", "templates", " ", "for", " ", 
+      "the", " ", "specific", " ", "BEAMDP", " ", "\n", "\t\t\t\t\t  ", 
+      RowBox[{"functions", ".", " ", "There"}], " ", "are", " ", 
+      "replacements", " ", "to", " ", "be", " ", "made", " ", "before", " ", 
+      "they", " ", "\n", "\t\t\t\t\t  ", "can", " ", "be", " ", 
+      RowBox[{"executed", ".", " ", "\n", "\t\t", "File"}], " ", "names", " ",
+       "cannot", " ", "get", " ", "to", " ", "long", " ", "or", " ", "BEAMDP",
+       " ", "will", " ", "present", " ", "an", " ", "IO", " ", "error", " ", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"it", " ", "\n", "\t\t", 
+         RowBox[{"can", "'"}], "t", " ", "find", " ", "the", " ", "file"}], 
+        ")"}], ".", " ", "\n", "\t", "After"}], " ", "each", " ", "script", 
+      " ", "text"}]}], ",", " ", 
+    RowBox[{
+    "is", " ", "a", " ", "set", " ", "of", " ", "default", " ", "replacement",
+      " ", 
+     RowBox[{"rules", ".", " ", "Replace"}], " ", "the", " ", "\n", "\t", 
+     "specific", " ", "fields", " ", "for", " ", "your", " ", "application", 
+     " ", "and", " ", "then", " ", "apply", " ", "the", " ", "default", " ", 
+     "replacement", " ", "\n", "\t", 
+     RowBox[{"rules", ".", " ", "That"}], " ", "way", " ", "all", " ", "the", 
+     " ", "fields", " ", "in", " ", "the", " ", "input", " ", "file", " ", 
+     "will", " ", "be", " ", 
+     RowBox[{"defined", "."}]}]}], "\n", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+   "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+     "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"SpectrumBEAMDPScriptText", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<n\>\"", "\n", "   ", ",", " ", "\"\<3\>\"", "\n", "   ", ",", " ", 
+       "\"\<PARTICLETYPE, XMIN, XMAX, YMIN, YMAX\>\"", "\n", "   ", ",", " ", 
+       "\"\<NUMBINS,EMIN,EMAX\>\"", "\n", "   ", ",", " ", "\"\<0,0,0\>\"", 
+       "\n", "   ", ",", " ", "\"\<PHSPFILENAME.egsphspPHNUM\>\"", "\n", 
+       "   ", ",", " ", 
+       "\"\<PHSPFILENAME_PARTICLENAMESpectrum_YMINToYMAX_PHNUM_NUMBINS.xmgr\>\
+\"", "\n", "   ", ",", " ", "\"\<1\>\"", "\n", "   ", ",", " ", "\"\<0\>\"", 
+       "\n", "   ", ",", " ", "\"\<0\>\"", "\n", "   ", ",", " ", "\"\<0\>\"",
+        "\n", "   ", ",", " ", "\"\<\\n\>\""}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"SpectrumBEAMDPDefaultReplacementRules", " ", "=", " ", 
+     RowBox[{"{", "\n", "   ", 
+      RowBox[{
+       RowBox[{"\"\<PHNUM\>\"", " ", "->", " ", "\"\<1\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMIN\>\"", " ", "->", " ", "\"\<-1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMAX\>\"", " ", "->", " ", "\"\<1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<YMIN\>\"", " ", "->", " ", "\"\<-16.0\>\""}], "\n", "   ",
+        ",", " ", 
+       RowBox[{"\"\<YMAX\>\"", " ", "->", " ", "\"\<16.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<NUMBINS\>\"", " ", "->", " ", "\"\<100\>\""}], "\n", 
+       "   ", ",", " ", 
+       RowBox[{"\"\<EMIN\>\"", " ", "->", " ", "\"\<0.00\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<EMAX\>\"", " ", "->", " ", "\"\<6.00\>\""}]}], "\n", 
+      "   ", "}"}]}], ";"}], "\n", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"PositionBEAMDPScriptText", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<n\>\"", "\n", "   ", ",", " ", "\"\<9\>\"", "\n", "   ", ",", " ", 
+       "\"\<PARTICLETYPE, XMIN, XMAX, YMIN, YMAX\>\"", "\n", "   ", ",", " ", 
+       "\"\<0, 6\>\"", "\n", "   ", ",", " ", "\"\<0, 0, 0\>\"", "\n", "   ", 
+       ",", " ", "\"\<PHSPFILENAME.egsphspPHNUM\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME_Position_PARTICLENAME_PHNUM.xmgr\>\"", "\n", "   ", 
+       ",", " ", "\"\<NUMBERPARTICLES\>\"", "\n", "   ", ",", " ", 
+       "\"\<0\>\"", "\n", "   ", ",", " ", "\"\<0\>\"", "\n", "   ", ",", 
+       " ", "\"\<\\n\>\""}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"PositionBEAMDPDefaultReplacementRules", " ", "=", " ", 
+     RowBox[{"{", "\n", "   ", 
+      RowBox[{
+       RowBox[{"\"\<PHNUM\>\"", " ", "->", " ", "\"\<1\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMIN\>\"", " ", "->", " ", "\"\<-1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMAX\>\"", " ", "->", " ", "\"\<1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<YMIN\>\"", " ", "->", " ", "\"\<-16.0\>\""}], "\n", "   ",
+        ",", " ", 
+       RowBox[{"\"\<YMAX\>\"", " ", "->", " ", "\"\<16.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<NUMBINS\>\"", " ", "->", " ", "\"\<100\>\""}], "\n", 
+       "   ", ",", " ", 
+       RowBox[{"\"\<EMIN\>\"", " ", "->", " ", "\"\<0.00\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<EMAX\>\"", " ", "->", " ", "\"\<6.00\>\""}]}], "\n", 
+      "   ", "}"}]}], ";"}], "\n", "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"MeanEnergyBEAMDPScriptText", " ", "=", " ", 
+     RowBox[{"{", "\n", "   ", 
+      RowBox[{
+      "\"\<n\>\"", "\n", "   ", ",", " ", "\"\<5\>\"", "\n", "   ", ",", " ", 
+       "\"\<2\>\"", "\n", "   ", ",", " ", 
+       "\"\<NUMBINS, ZEROISXONEISY, PARTICLETYPE, XMIN, XMAX, YMIN, YMAX, \
+\>\"", "\n", "   ", ",", " ", "\"\<0, 0, 0\>\"", "\n", "   ", ",", " ", 
+       "\"\<1, \>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME.egsphspPHNUM\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME_MeanEnergy_PARTICLENAME_PHNUM_NUMBINS.xmgr\>\"", 
+       "\n", "   ", ",", " ", "\"\<1\>\"", "\n", "   ", ",", " ", "\"\<0\>\"",
+        "\n", "   ", ",", " ", "\"\<0\>\"", "\n", "   ", ",", " ", 
+       "\"\<\\n\>\""}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"MeanEnergyBEAMDPDefaultReplacementRules", " ", "=", " ", 
+     RowBox[{"{", "\n", "   ", 
+      RowBox[{
+       RowBox[{"\"\<PHNUM\>\"", " ", "->", " ", "\"\<1\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMIN\>\"", " ", "->", " ", "\"\<-1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMAX\>\"", " ", "->", " ", "\"\<1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<YMIN\>\"", " ", "->", " ", "\"\<-16.0\>\""}], "\n", "   ",
+        ",", " ", 
+       RowBox[{"\"\<YMAX\>\"", " ", "->", " ", "\"\<16.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<NUMBINS\>\"", " ", "->", " ", "\"\<64\>\""}], "\n", "   ",
+        ",", " ", 
+       RowBox[{"\"\<ZEROISXONEISY\>\"", " ", "->", " ", "\"\<1\>\""}]}], "\n",
+       "   ", "}"}]}], ";"}], "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"FluenceBeamDPScript", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<n\>\"", "\n", "   ", ",", " ", "\"\<1\>\"", "\n", "   ", ",", " ", 
+       "\"\<2,\>\"", "\n", "   ", ",", " ", 
+       "\"\<NUMBINS,ZEROISXONEISY,PARTICLETYPE,XMIN, XMAX, YMIN, YMAX, \>\"", 
+       "\n", "   ", ",", " ", "\"\<0, 0, 0\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME.egsphspPHNUM\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME_Fluence_PARTICLENAME_PHNUM_NUMBINS.xmgr\>\"", "\n", 
+       "   ", ",", " ", "\"\<1\>\"", "\n", "   ", ",", " ", "\"\<1\>\"", "\n",
+        "   ", ",", " ", "\"\<0\>\"", "\n", "   ", ",", " ", "\"\<0\>\"", 
+       "\n", "   ", ",", " ", "\"\<\\n\>\""}], "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"FluenceBeamDPDefaultReplacementRules", " ", "=", " ", 
+     RowBox[{"{", "\n", "   ", 
+      RowBox[{
+       RowBox[{"\"\<PHNUM\>\"", " ", "->", " ", "\"\<1\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMIN\>\"", " ", "->", " ", "\"\<-1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<XMAX\>\"", " ", "->", " ", "\"\<1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<YMIN\>\"", " ", "->", " ", "\"\<-1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<YMAX\>\"", " ", "->", " ", "\"\<1.0\>\""}], "\n", "   ", 
+       ",", " ", 
+       RowBox[{"\"\<NUMBINS\>\"", " ", "->", " ", "\"\<64\>\""}], "\n", "   ",
+        ",", " ", 
+       RowBox[{"\"\<ZEROISXONEISY\>\"", " ", "->", " ", "\"\<0\>\""}]}], "\n",
+       "   ", "}"}]}], ";"}], "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"DumpParticlesBeamDPScript", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<n\>\"", "\n", "   ", ",", " ", "\"\<11\>\"", "\n", "   ", ",", 
+       " ", "\"\<NUMBERPARTICLES, 0\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME.egsphspPHNUM\>\"", "\n", "   ", ",", " ", 
+       "\"\<0\>\"", "\n", "   ", ",", " ", "\"\<0\>\"", "\n", "   ", ",", 
+       " ", "\"\<\\n\>\""}], "}"}]}], ";"}], "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"DumpZLastBeamDPScript", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<n\>\"", "\n", "   ", ",", " ", "\"\<7\>\"", "\n", "   ", ",", " ", 
+       "\"\<PARTICLETYPE, XMIN, XMAX, YMIN, YMAX\>\"", "\n", "   ", ",", " ", 
+       "\"\<NUMBERPARTICLES, 0, 0.5\>\"", "\n", "   ", ",", " ", 
+       "\"\<0, 0, 0\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME.egsphspPHNUM\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME_ZLast_PARTICLENAME_PHNUM.xmgr\>\"", "\n", "   ", ",",
+        " ", "\"\<1\>\"", "\n", "   ", ",", " ", "\"\<0\>\"", "\n", "   ", 
+       ",", " ", "\"\<0\>\"", "\n", "   ", ",", " ", "\"\<\\n\>\""}], "}"}]}],
+     ";"}], "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"AngularDistributionScriptText", " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+      "\"\<n\>\"", "\n", "   ", ",", " ", "\"\<6\>\"", "\n", "   ", ",", " ", 
+       "\"\<PARTICLETYPE, 0, 1, 0, 0\>\"", "\n", "   ", ",", " ", 
+       "\"\<NUMBINS, ANGLEMIN, ANGLEMAX\>\"", "\n", "   ", ",", " ", 
+       "\"\<0, 6\>\"", "\n", "   ", ",", " ", "\"\<0, 0, 0\>\"", "\n", "   ", 
+       ",", " ", "\"\<PHSPFILENAME.egsphspPHNUM\>\"", "\n", "   ", ",", " ", 
+       "\"\<PHSPFILENAME_AngDist_PARTICLENAME_PHNUM.xmgr\>\"", "\n", "   ", 
+       ",", " ", "\"\<1\>\"", "\n", "   ", ",", " ", "\"\<0\>\"", "\n", "   ",
+        ",", " ", "\"\<0\>\"", "\n", "   ", ",", " ", "\"\<0\>\"", ",", " ", 
+       "\"\<\\n\>\""}], "\n", "   ", "}"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"AngularBeamDPDefaultReplacementRules", " ", "=", " ", 
+     RowBox[{"{", "\n", "   ", 
+      RowBox[{
+       RowBox[{"\"\<NUMBINS\>\"", " ", "->", " ", "\"\<100\>\""}], "\n", 
+       "   ", ",", " ", 
+       RowBox[{"\"\<ANGLEMIN\>\"", " ", "->", " ", "\"\<0\>\""}], "\n", "   ",
+        ",", " ", 
+       RowBox[{"\"\<ANGLEMAX\>\"", " ", "->", " ", "\"\<90\>\""}], "\n", 
+       "   ", ",", " ", 
+       RowBox[{"\"\<\>\"", " ", "->", " ", "\"\<\>\""}], "\n", "   ", ",", 
+       " ", 
+       RowBox[{"\"\<\>\"", " ", "->", " ", "\"\<\>\""}], "\n", "   ", ",", 
+       " ", 
+       RowBox[{"\"\<\>\"", " ", "->", " ", "\"\<\>\""}]}], "\n", "   ", 
+      "}"}]}], ";"}], "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}], "\n", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+    "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "===", "===", "===", "===", "===", "===", "===", "===",
+      "===", "===", "===", "=="}], " ", "*)"}]}]}]], "Code",
+ CellChangeTimes->{{3.7042268605185547`*^9, 
+  3.7042269546191406`*^9}},ExpressionUUID->"a8ad5c4c-5454-43aa-9c0a-\
+e95ff72d0834"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["RunBEAMDPScript", "Section",
+ CellChangeTimes->{3.6520566593427734`*^9},
+ Background->RGBColor[
+  1, 1, 0.85],ExpressionUUID->"7dd1bbfe-beb9-4148-a3fe-f017e3359056"],
+
+Cell["\<\
+RunBEAMDPScript Notes
+\tTo run BEAMdp, the IAEA files need the \[OpenCurlyDoubleQuote]IAEAphsp\
+\[CloseCurlyDoubleQuote] suffix.
+\tThe result filename needs a full path.\
+\>", "Text",
+ PageWidth->PaperWidth,
+ CellChangeTimes->{{3.652055315205078*^9, 3.652055368689453*^9}, {
+   3.6520563983583984`*^9, 3.6520564014833984`*^9}, 3.6520566594208984`*^9},
+ Background->RGBColor[
+  1, 0.9, 0.8],ExpressionUUID->"5ecd632e-1b28-4edb-83b7-b0d5d843dd14"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Clear", "[", "RunBEAMDPScript", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"Options", "[", "RunBEAMDPScript", "]"}], "=", 
+   RowBox[{"{", "\n", "}"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"RunBEAMDPScript", "[", 
+    RowBox[{"InDir_String", ",", "InScriptText_List", ",", 
+     RowBox[{"OptionsPattern", "[", "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "\[IndentingNewLine]", 
+      RowBox[{"UseFN", ",", "OldDir", "\[IndentingNewLine]", ",", 
+       RowBox[{"BDPNM", "=", "\"\<beamdp.exe\>\""}]}], "\[IndentingNewLine]", 
+      "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", "\[IndentingNewLine]", "}"}], "=", 
+       RowBox[{"OptionValue", "[", 
+        RowBox[{"{", "}"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"CopyBEAMDPToDir", "[", "InDir", "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"OldDir", "=", 
+       RowBox[{"Directory", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"SetDirectory", "[", "InDir", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"UseFN", "=", 
+       RowBox[{"\"\<Temp_\>\"", "<>", 
+        RowBox[{"DateString", "[", 
+         RowBox[{"{", 
+          RowBox[{
+          "\"\<Year\>\"", ",", "\"\<Month\>\"", ",", "\"\<Day\>\"", ",", 
+           "\"\<Hour\>\"", ",", "\"\<Minute\>\"", ",", "\"\<Second\>\""}], 
+          "}"}], "]"}], "<>", "\"\<.script\>\""}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Export", "[", 
+       RowBox[{"UseFN", ",", "InScriptText", ",", "\"\<Text\>\""}], "]"}], 
+      ";", "\[IndentingNewLine]", 
+      RowBox[{"Run", "[", 
+       RowBox[{"BDPNM", "<>", "\"\< < \>\"", "<>", "UseFN"}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"DeleteFile", "[", "UseFN", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"SetDirectory", "[", "OldDir", "]"}], ";"}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"(*", "\n", 
+   RowBox[{
+    RowBox[{"RunBEAMDPScript", "[", 
+     RowBox[{
+     "\"\<F:\\\\PhaseSpace\\\\Varian600C\\\\\>\"", "\[IndentingNewLine]", ",",
+       "TestScript"}], "\[IndentingNewLine]", "]"}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"MyFuncPlotMultipleXmgrData", "[", 
+     RowBox[{
+     "{", "\"\<F:\\\\PhaseSpace\\\\Varian600C\\\\Varian_Clinac_600C_6MV_10x10_\
+MeanEnergy_Photon_1_64.xmgr\>\"", "}"}], "]"}]}], "\[IndentingNewLine]", 
+   "*)"}]}]}], "Input",
+ Editable->True,
+ Evaluatable->True,
+ InitializationCell->True,
+ CellChangeTimes->{{3.6520550088671875`*^9, 3.65205501478125*^9}, {
+   3.652055254501953*^9, 3.652055300439453*^9}, {3.652055587513672*^9, 
+   3.652055622841797*^9}, {3.652055704248047*^9, 3.652055801685547*^9}, 
+   3.6520559129990234`*^9, {3.6520563784052734`*^9, 3.6520563836708984`*^9}, {
+   3.6520564545771484`*^9, 3.6520564737802734`*^9}, {3.6520565360302734`*^9, 
+   3.6520565566240234`*^9}, {3.6520566395771484`*^9, 3.6520566742177734`*^9}, 
+   3.6520569784833984`*^9, {3.652057400756836*^9, 3.652057531944336*^9}, {
+   3.652057565538086*^9, 3.652057625241211*^9}, {3.652057655772461*^9, 
+   3.652057685506836*^9}, {3.652057742803711*^9, 3.652057801147461*^9}, 
+   3.652058060421875*^9, {3.65205816046875*^9, 3.6520581754375*^9}, {
+   3.6520582390625*^9, 3.652058264203125*^9}, {3.6520583705625*^9, 
+   3.652058464453125*^9}, 3.6520589242177734`*^9, {3.6520589822958984`*^9, 
+   3.6520590032646484`*^9}, {3.6520595317802734`*^9, 
+   3.6520595333115234`*^9}, {3.6520597637802734`*^9, 
+   3.6520597949052734`*^9}, {3.6520599060302734`*^9, 3.652059923720703*^9}, 
+   3.656634131916992*^9, 3.704226167654297*^9, {3.704226431213867*^9, 
+   3.7042264346132812`*^9}, {3.7042265032001953`*^9, 3.704226508459961*^9}, {
+   3.704226561364258*^9, 3.7042265834121094`*^9}, {3.7042266590117188`*^9, 
+   3.704226666836914*^9}, 3.704227016741211*^9},
+ Background->GrayLevel[0.85],
+ CellTags->
+  "FunctionDefinition \
+CreateBEAMDPScript",ExpressionUUID->"bda2e43c-89ec-46ea-958e-c0707e76b6b9"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Example", "Subchapter",
+ CellChangeTimes->{{3.7042270325097656`*^9, 
+  3.704227036272461*^9}},ExpressionUUID->"fe0058d8-bf1b-46de-b826-\
+c51df0d2b4da"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"TestScript", "=", 
+   RowBox[{"StringReplace", "[", 
+    RowBox[{"SpectrumBEAMDPScriptText", ",", "\[IndentingNewLine]", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"\"\<NUMBERPARTICLES\>\"", "\[Rule]", "\"\<100\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{"\"\<PARTICLETYPE\>\"", "\[Rule]", "\"\<0\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{
+         "\"\<PHSPFILENAME\>\"", "\[Rule]", "\"\<DT0.1W0.2E0.15AL\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{"\"\<PARTICLENAME\>\"", "\[Rule]", "\"\<Photon\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{"\"\<YMIN\>\"", "\[Rule]", "\"\<-5\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{"\"\<YMAX\>\"", "\[Rule]", "\"\<5\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{"\"\<XMIN\>\"", "\[Rule]", "\"\<-5.\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{"\"\<XMAX\>\"", "\[Rule]", "\"\<5.\>\""}], 
+         "\[IndentingNewLine]", ",", " ", 
+         RowBox[{"\"\<EMIN\>\"", " ", "->", " ", "\"\<0.00\>\""}], 
+         "\[IndentingNewLine]", ",", " ", 
+         RowBox[{"\"\<EMAX\>\"", " ", "->", " ", "\"\<0.150\>\""}], 
+         "\[IndentingNewLine]", ",", 
+         RowBox[{"\"\<NUMBINS\>\"", "\[Rule]", "\"\<10\>\""}]}], 
+        "\[IndentingNewLine]", "}"}], "\[IndentingNewLine]", ",", 
+       "SpectrumBEAMDPDefaultReplacementRules"}], "]"}]}], 
+    "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"TableForm", "[", 
+  RowBox[{
+   RowBox[{"Transpose", "[", 
+    RowBox[{"{", 
+     RowBox[{"SpectrumBEAMDPScriptText", ",", "TestScript"}], "}"}], "]"}], 
+   "\[IndentingNewLine]", ",", 
+   RowBox[{"TableHeadings", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"None", ",", 
+      RowBox[{"{", 
+       RowBox[{"\"\<Template\>\"", ",", "\"\<File Specific\>\""}], "}"}]}], 
+     "}"}]}]}], "\[IndentingNewLine]", "]"}]}], "Input",
+ CellChangeTimes->{{3.704227070959961*^9, 3.7042271047734375`*^9}, {
+  3.7042271960097656`*^9, 3.7042272171728516`*^9}, {3.7042272799384766`*^9, 
+  3.704227324701172*^9}, {3.7042274033623047`*^9, 3.7042274360908203`*^9}, {
+  3.7042274925390625`*^9, 3.7042275156132812`*^9}, {3.704227614995117*^9, 
+  3.7042276340625*^9}, {3.7042284089873047`*^9, 
+  3.704228456546875*^9}},ExpressionUUID->"86d6bec8-6113-4e96-80e5-\
+f9a92e7f4234"],
+
+Cell[BoxData[
+ TagBox[
+  TagBox[GridBox[{
+     {
+      TagBox["\<\"Template\"\>",
+       HoldForm], 
+      TagBox["\<\"File Specific\"\>",
+       HoldForm]},
+     {"\<\"n\"\>", "\<\"n\"\>"},
+     {"\<\"3\"\>", "\<\"3\"\>"},
+     {"\<\"PARTICLETYPE, XMIN, XMAX, YMIN, YMAX\"\>", "\<\"0, -5., 5., -5, \
+5\"\>"},
+     {"\<\"NUMBINS,EMIN,EMAX\"\>", "\<\"10,0.00,0.150\"\>"},
+     {"\<\"0,0,0\"\>", "\<\"0,0,0\"\>"},
+     {"\<\"PHSPFILENAME.egsphspPHNUM\"\>", \
+"\<\"DT0.1W0.2E0.15AL.egsphsp1\"\>"},
+     {"\<\"PHSPFILENAME_PARTICLENAMESpectrum_YMINToYMAX_PHNUM_NUMBINS.xmgr\"\>\
+", "\<\"DT0.1W0.2E0.15AL_PhotonSpectrum_-5To5_1_10.xmgr\"\>"},
+     {"\<\"1\"\>", "\<\"1\"\>"},
+     {"\<\"0\"\>", "\<\"0\"\>"},
+     {"\<\"0\"\>", "\<\"0\"\>"},
+     {"\<\"0\"\>", "\<\"0\"\>"},
+     {"\<\"\\n\"\>", "\<\"\\n\"\>"}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxDividers->{
+     "Columns" -> {{False}}, "ColumnsIndexed" -> {}, 
+      "Rows" -> {False, True, {False}, False}, "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[2.0999999999999996`]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}],
+   {None, OutputFormsDump`HeadedColumns}],
+  Function[BoxForm`e$, 
+   TableForm[
+   BoxForm`e$, 
+    TableHeadings -> {None, {"Template", "File Specific"}}]]]], "Output",
+ CellChangeTimes->{
+  3.704227105538086*^9, 3.704227218091797*^9, 3.7042273254833984`*^9, {
+   3.704227417296875*^9, 3.704227438080078*^9}, {3.704227508926758*^9, 
+   3.7042275164121094`*^9}, 3.7042276154765625`*^9, 3.704228410173828*^9, {
+   3.7042284428808594`*^9, 
+   3.704228456879883*^9}},ExpressionUUID->"8a6710db-8f19-4fc1-be84-\
+5e3aedabfd1c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"RunBEAMDPScript", "[", 
+   RowBox[{
+   "\"\<C:\\\\egsnrc_mp\\\\BEAM_XRayPlus\\\\\>\"", "\[IndentingNewLine]", ",",
+     "TestScript"}], "\[IndentingNewLine]", "]"}], ";"}], "\n", 
+ RowBox[{"MyFuncPlotMultipleXmgrData", "[", 
+  RowBox[{
+  "{", "\"\<C:\\\\egsnrc_mp\\\\BEAM_XRayPlus\\\\DT0.1W0.2E0.15AL_\
+PhotonSpectrum_-5To5_1_10.xmgr\>\"", "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7042271883603516`*^9, 3.7042272043691406`*^9}, 
+   3.7042284491689453`*^9, {3.7042285160253906`*^9, 
+   3.7042285161640625`*^9}},ExpressionUUID->"8f51e4a4-9cd3-4ac5-963a-\
+da379e794949"],
+
+Cell[BoxData[
+ GraphicsBox[{{}, {{}, {}, 
+    {RGBColor[0.300725, 0.680491, 0.901701], PointSize[0.012833333333333334`],
+      AbsoluteThickness[1.6], LineBox[CompressedData["
+1:eJxTTMoPSmViYGBQAGIQLXX/iGNacpXt1X4Gd6kJLTYwfoX1dImkhH7bHXKt
+rwN31Nmj8vsw+FdL08Rjc3fbc11fXGDLNR3Oh8jPw+AzgMEHe2MwWAznQ/Qv
+x+DP/repivHUI/uHVSLr3B+ugvMh5q3D4CfeM/S6lHXb3gOsYSOcD7FvMwb/
+zh6hkGa3R/byIO1yW+F8iP3bMfifCpe3bfa9ZP9NI6b/0NcdcP4jsPt2YfB1
+ey4IPL91zP7sGRDYA+dD3LsPg79tweXYMudF9kFggQNwPsQ/BzH4sPiwAzvw
+EJxvAvbfYQw+LL4B6iPpYQ==
+      "]], {{}, {}, {}, {}, {}, {
+       LineBox[{{0.0225, 0.1071376222980685}, {0.0225, 0.1071373910780685}}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0225, 0.1071376222980685}], 
+         Offset[{-1.5, 0}, {0.0225, 0.1071376222980685}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0225, 0.1071373910780685}], 
+         Offset[{-1.5, 0}, {0.0225, 0.1071373910780685}]}]}, {}, {}, {
+       LineBox[{{0.0375, 1.00000035321}, {0.0375, 0.99999964679}}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0375, 1.00000035321}], 
+         Offset[{-1.5, 0}, {0.0375, 1.00000035321}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0375, 0.99999964679}], 
+         Offset[{-1.5, 0}, {0.0375, 0.99999964679}]}]}, {}, {}, {
+       LineBox[{{0.0525, 0.5871594442772232}, {0.0525, 0.5871583727372232}}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0525, 0.5871594442772232}], 
+         Offset[{-1.5, 0}, {0.0525, 0.5871594442772232}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0525, 0.5871583727372232}], 
+         Offset[{-1.5, 0}, {0.0525, 0.5871583727372232}]}]}, {}, {}, {
+       LineBox[{{0.0675, 0.428395094693403}, {0.0675, 0.42839463243340303`}}],
+        LineBox[{
+        Offset[{1.5, 0}, {0.0675, 0.428395094693403}], 
+         Offset[{-1.5, 0}, {0.0675, 0.428395094693403}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0675, 0.42839463243340303`}], 
+         Offset[{-1.5, 0}, {0.0675, 0.42839463243340303`}]}]}, {}, {}, {
+       LineBox[{{0.0825, 0.5711078109812521}, {0.0825, 0.5711072773012521}}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0825, 0.5711078109812521}], 
+         Offset[{-1.5, 0}, {0.0825, 0.5711078109812521}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0825, 0.5711072773012521}], 
+         Offset[{-1.5, 0}, {0.0825, 0.5711072773012521}]}]}, {}, {}, {
+       LineBox[{{0.0975, 0.2859926983432959}, {0.0975, 0.2859923203832959}}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0975, 0.2859926983432959}], 
+         Offset[{-1.5, 0}, {0.0975, 0.2859926983432959}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.0975, 0.2859923203832959}], 
+         Offset[{-1.5, 0}, {0.0975, 0.2859923203832959}]}]}, {}, {}, {
+       LineBox[{{0.1125, 0.17855552645706263`}, {0.1125, 
+        0.17855522795706263`}}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.1125, 0.17855552645706263`}], 
+         Offset[{-1.5, 0}, {0.1125, 0.17855552645706263`}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.1125, 0.17855522795706263`}], 
+         Offset[{-1.5, 0}, {0.1125, 0.17855522795706263`}]}]}, {}, {}, {
+       LineBox[{{0.1275, 0.0356710136934976}, {0.1275, 0.0356708803674976}}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.1275, 0.0356710136934976}], 
+         Offset[{-1.5, 0}, {0.1275, 0.0356710136934976}]}], 
+       LineBox[{
+        Offset[{1.5, 0}, {0.1275, 0.0356708803674976}], 
+         Offset[{-1.5, 0}, {0.1275, 
+          0.0356708803674976}]}]}, {}, {}, {}, {}, {}}}}, {}, {}, {{}, {}}, \
+{{}, {}}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0, 0},
+  Background->GrayLevel[1],
+  DisplayFunction->((Print[#]; Null)& ),
+  Frame->True,
+  FrameLabel->{
+    FormBox["\"Energy /MeV\"", TraditionalForm], 
+    FormBox["\"Fluence (Normalized)\"", TraditionalForm], None, None},
+  FrameTicks->{{Automatic, Automatic}, {Automatic, Automatic}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImagePadding->All,
+  ImageSize->600,
+  Method->{"CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& )}},
+  PlotLabel->FormBox[
+   "\"Photon Spectral \
+Distribution\\nDT0.1W0.2E0.15AL.egsphsp1\\tBEAM_XRayPlus\"", TraditionalForm],
+  PlotRange->All,
+  PlotRangeClipping->True,
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  Ticks->{Automatic, Automatic}]], "Print",
+ CellChangeTimes->{
+  3.704227245432617*^9, 3.7042275233447266`*^9, 3.7042275538339844`*^9, {
+   3.7042284500878906`*^9, 3.704228458510742*^9}, 
+   3.7042285171796875`*^9},ExpressionUUID->"0ba954d2-5660-4363-a760-\
+51188da7ac7b"]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1201, 959},
+WindowMargins->{{Automatic, 261}, {0, Automatic}},
+FrontEndVersion->"11.1 for Microsoft Windows (64-bit) (April 18, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "FunctionDefinition CopyBEAMDPToDir"->{
+  Cell[1430, 49, 1926, 51, 
+  256, "Input", "ExpressionUUID" -> "f64de668-64c1-4c25-9ad1-cd9ecabd217c",
+   Evaluatable->True,
+   InitializationCell->True,
+   CellTags->"FunctionDefinition CopyBEAMDPToDir"]},
+ "FunctionDefinition CreateBEAMDPScript"->{
+  Cell[17587, 396, 4045, 85, 
+  503, "Input", "ExpressionUUID" -> "bda2e43c-89ec-46ea-958e-c0707e76b6b9",
+   Evaluatable->True,
+   InitializationCell->True,
+   CellTags->"FunctionDefinition CreateBEAMDPScript"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"FunctionDefinition CopyBEAMDPToDir", 32062, 740},
+ {"FunctionDefinition CreateBEAMDPScript", 32314, 746}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 170, 3, 67, "Subchapter", "ExpressionUUID" -> \
+"9ea1d1b1-7100-4cc1-9a0c-9e7c8d137dd9"],
+Cell[753, 27, 173, 4, 46, "Input", "ExpressionUUID" -> \
+"d09144e9-9e31-4ab1-ada5-a54a0364b010",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[951, 35, 130, 2, 65, "Subsection", "ExpressionUUID" -> \
+"597c381f-c658-443f-ace9-1177b1fdf02d"],
+Cell[1084, 39, 343, 8, 84, "Text", "ExpressionUUID" -> \
+"a619b899-5c7b-41d6-a209-027c506cfdf3"],
+Cell[1430, 49, 1926, 51, 256, "Input", "ExpressionUUID" -> \
+"f64de668-64c1-4c25-9ad1-cd9ecabd217c",
+ Evaluatable->True,
+ InitializationCell->True,
+ CellTags->"FunctionDefinition CopyBEAMDPToDir"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3393, 105, 163, 3, 70, "Section", "ExpressionUUID" -> \
+"b80a7407-5013-471c-b904-4ba925269020"],
+Cell[3559, 110, 13359, 264, 2661, "Code", "ExpressionUUID" -> \
+"a8ad5c4c-5454-43aa-9c0a-e95ff72d0834"]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[16955, 379, 171, 3, 60, "Section", "ExpressionUUID" -> \
+"7dd1bbfe-beb9-4148-a3fe-f017e3359056"],
+Cell[17129, 384, 455, 10, 84, "Text", "ExpressionUUID" -> \
+"5ecd632e-1b28-4edb-83b7-b0d5d843dd14"],
+Cell[17587, 396, 4045, 85, 503, "Input", "ExpressionUUID" -> \
+"bda2e43c-89ec-46ea-958e-c0707e76b6b9",
+ Evaluatable->True,
+ InitializationCell->True,
+ CellTags->"FunctionDefinition CreateBEAMDPScript"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[21681, 487, 157, 3, 67, "Subchapter", "ExpressionUUID" -> \
+"fe0058d8-bf1b-46de-b826-c51df0d2b4da"],
+Cell[CellGroupData[{
+Cell[21863, 494, 2463, 52, 373, "Input", "ExpressionUUID" -> \
+"86d6bec8-6113-4e96-80e5-f9a92e7f4234"],
+Cell[24329, 548, 1894, 48, 248, "Output", "ExpressionUUID" -> \
+"8a6710db-8f19-4fc1-be84-5e3aedabfd1c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[26260, 601, 609, 13, 88, "Input", "ExpressionUUID" -> \
+"8f51e4a4-9cd3-4ac5-963a-da379e794949"],
+Cell[26872, 616, 4842, 110, 427, "Print", "ExpressionUUID" -> \
+"0ba954d2-5660-4363-a760-51188da7ac7b"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
